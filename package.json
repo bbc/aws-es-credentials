@@ -10,7 +10,7 @@
     "test": "mocha",
     "babel": "babel src --out-dir lib",
     "watch": "npm-watch",
-    "lint": "prettier /src/*"
+    "lint": "prettier --write 'src/*.js'"
   },
   "author": "jack.hanniganpopp@bbc.co.uk",
   "license": "MIT",
