@@ -20,7 +20,7 @@ const setOptions = options => {
 
 const getOptions = () => REVALIDATE_OPTIONS;
 
-const elastipasty = async options => {
+const awsEsCredentials = async (options = {}) => {
   const region = options.region || process.env.AWS_REGION || "eu-west-1";
   const credentials = await resolveCredentials(options);
 
@@ -53,7 +53,7 @@ const elastipasty = async options => {
 };
 
 const resolveCredentials = async options => {
-  if (options.useMetadataService === true) {
+  if (options.useMetadataService !== false) {
     const credentialsJSON = await getCredentials();
     return new AWS.Credentials(
       credentialsJSON.AccessKeyId,
@@ -88,10 +88,10 @@ const mapProxy = client => {
 const startCredentialRefreshInterval = intervalId => {
   if (intervalId === null) {
     intervalId = setInterval(async () => {
-      client = await elastipasty(getOptions());
+      client = await awsEsCredentials(getOptions());
       client.search({});
     }, REFRESH_INTERVAL);
   }
 };
 
-export { elastipasty as default };
+export { awsEsCredentials as default };

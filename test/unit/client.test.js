@@ -2,16 +2,9 @@ import 'babel-polyfill';
 import elasticsearch from 'elasticsearch';
 import AWS from 'aws-sdk';
 import * as metadataService from '../../src/getCredentials';
-import elasticpasty from '../../src/index';
+import awsEsCredentials from '../../src/index';
 
-/*const config = {
-    credentials: {}
-};
-
-elasticpasty.setConfig(config)
-elasticpasty.search({});*/
-
-describe('elastipasty', () => {
+describe('awsEsCredentials', () => {
     describe('makeClient', () => {
         beforeEach(() => {
             sinon.stub(metadataService, 'getCredentials');
@@ -23,14 +16,21 @@ describe('elastipasty', () => {
         });
 
         it('queries metadata service is useMetadataService option is true', () => {
-            return elasticpasty({ useMetadataService: true })         
+            return awsEsCredentials({ useMetadataService: true })         
+                .then(() => {
+                    expect(metadataService.getCredentials.calledOnce).to.be.true;
+                });
+        });
+
+        it('useMetadataService default is true', () => {
+            return awsEsCredentials()         
                 .then(() => {
                     expect(metadataService.getCredentials.calledOnce).to.be.true;
                 });
         });
 
         it('does not query metadata service is useMetadataService option is false', () => {
-            return elasticpasty({ useMetadataService: false })         
+            return awsEsCredentials({ useMetadataService: false })         
                 .then(() => {
                     expect(metadataService.getCredentials.calledOnce).to.be.false;
                 });
@@ -39,7 +39,7 @@ describe('elastipasty', () => {
         it('uses supplied credentials when passed via options', () => {
             const options = { credentials: { hello: 'world' } };
             sinon.stub(elasticsearch, 'Client');
-            return elasticpasty(options)         
+            return awsEsCredentials(options)         
                 .then(() => {
                     expect(elasticsearch.Client.calledOnce).to.be.true;
                     expect(elasticsearch.Client.getCall(0).args[0].credentials).to.deep.equal(options.credentials);
@@ -53,7 +53,7 @@ describe('elastipasty', () => {
             process.env.AWS_SESSION_TOKEN = 'Hi!'
 
             sinon.stub(AWS, 'Credentials');
-            return elasticpasty({ useMetadataService: false })         
+            return awsEsCredentials({ useMetadataService: false })         
                 .then(() => {
                     expect(AWS.Credentials.calledOnce).to.be.true;
                     expect(AWS.Credentials.getCall(0).args[0]).to.equal(process.env.AWS_ACCESS_KEY_ID);
@@ -65,7 +65,7 @@ describe('elastipasty', () => {
         it('requests credentials every hour when useMetadataService option is true', () => {
             const clock = sinon.useFakeTimers();
 
-            return elasticpasty({ useMetadataService: true })         
+            return awsEsCredentials({ useMetadataService: true })         
                 .then(() => {
                     clock.tick(3600000);
                     expect(metadataService.getCredentials.callCount).to.equal(2);

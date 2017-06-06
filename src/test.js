@@ -1,6 +1,6 @@
 import "babel-polyfill";
 import nock from "nock";
-import elastipasty from "./index";
+import awsEsCredentials from "./index";
 
 import profile from "../test/fixture/metadata-response-one.js";
 import credentials from "../test/fixture/metadata-response-two.json";
@@ -23,16 +23,16 @@ const hostUrl =
       useMetadataService: true
     };
 
-    let client = await elastipasty(options);
+    let client = await awsEsCredentials(options);
 
-
-    client.search({})
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((e) => {
-            console.log(e)
-        });
+    client
+      .search({})
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   } catch (e) {
     console.log(e.stack);
   }

@@ -1,5 +1,5 @@
 {
-  "name": "elastypasty",
+  "name": "aws-es-credentials",
   "version": "0.0.1",
   "description": "AWS Elasticsearch credentials manager",
   "main": "lib/index.js",
@@ -10,7 +10,8 @@
     "test": "mocha",
     "babel": "babel src --out-dir lib",
     "watch": "npm-watch",
-    "lint": "prettier --write 'src/*.js'"
+    "lint": "prettier --write 'src/*.js'",
+    "prepublish": "babel"
   },
   "author": "jack.hanniganpopp@bbc.co.uk",
   "license": "MIT",
