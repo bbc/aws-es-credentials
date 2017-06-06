@@ -5,14 +5,14 @@
   "main": "lib/index.js",
   "module": "lib/index.js",
   "watch": {
-    "babel": "src/*"
+    "build": "src/*"
   },
   "scripts": {
     "test": "mocha",
-    "babel": "babel src --out-dir lib",
+    "build": "babel src --out-dir lib",
     "watch": "npm-watch",
     "lint": "prettier --write 'src/*.js'",
-    "prepublish": "babel"
+    "prepublish": "npm run build"
   },
   "author": "jack.hanniganpopp@bbc.co.uk",
   "license": "MIT",
