@@ -1,0 +1,1 @@
+module.exports = "test-local-news-content-api-infrastru-InstanceRole-UOKVKJK32030"
