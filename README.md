@@ -14,6 +14,8 @@ The client will query the metadata service by default but can be disabled by pas
 // The client returns a promise as an async request is made to get the session token values
 
 // Automatically use metadata service
+import awsEsCredentials from 'aws-es-credentials';
+
 (async () => {
     const options = {
         hosts: 'localhost:9200'
