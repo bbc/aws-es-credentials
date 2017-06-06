@@ -6,7 +6,7 @@ The client defaults to using the metadata service, but can also use a provided c
 Using the credentials or environment variables is handy for local development, where as your instance will have the metadata service to use.
 
 Useage
-```
+```javascript
 // The client returns a promise as an async request is made to get the session token values
 
 // Automatically use metadata service
