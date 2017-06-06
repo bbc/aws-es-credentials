@@ -3,9 +3,13 @@
 
 A wrapper around the elasticsearch JS client that keeps the AWS session token updated automatically.
 The client defaults to using the metadata service, but can also use a provided credentials object or environment variables.
+
 Using the credentials or environment variables is handy for local development, where as your instance will have the metadata service to use.
 
-Useage
+The client will automatically refresh the token every hour by requesting again from the metadata service.
+
+#### Usage
+The client will query the metadata service by default but can be disabled by passing false useMetadataService option.
 ```javascript
 // The client returns a promise as an async request is made to get the session token values
 
