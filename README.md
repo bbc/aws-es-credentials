@@ -23,7 +23,7 @@ import awsEsCredentials from 'aws-es-credentials';
 
     const client = await awsEsCredentials(options);
     client.seach(// search json goes here);
-});
+})();
 
 // Turn metadata service off, will attempt to use environment variables
 (async () => {
@@ -34,7 +34,7 @@ import awsEsCredentials from 'aws-es-credentials';
 
     const client = await awsEsCredentials(options);
     client.seach(// search json goes here);
-});
+})();
 
 // Pass credentials manually
 (async () => {
@@ -46,5 +46,8 @@ import awsEsCredentials from 'aws-es-credentials';
 
     const client = await awsEsCredentials(options);
     client.seach(// search json goes here);
-});
+})();
 ```
+
+### TODO
+- handle relvalidation errors

@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import AWS from "aws-sdk";
 import httpAWSES from "http-aws-es";
 import elasticsearch from "elasticsearch";

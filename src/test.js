@@ -1,4 +1,3 @@
-import "babel-polyfill";
 import nock from "nock";
 import awsEsCredentials from "./index";
 
