@@ -42,7 +42,8 @@ const awsEsCredentials = async (options = {}) => {
     startCredentialRefreshInterval(intervalId);
   }
 
-  return client;
+  return clientProxyFunctions;
+  //return client;
 };
 
 /**
@@ -75,7 +76,7 @@ const resolveCredentials = async options => {
 };
 
 const clientProxyCaller = (parameters, functionName) => {
-  client[functionName].apply(client, parameters);
+  return client[functionName].apply(client, parameters);
 };
 
 /**
@@ -101,7 +102,7 @@ const startCredentialRefreshInterval = intervalId => {
   if (intervalId === null) {
     intervalId = setInterval(async () => {
       client = await awsEsCredentials(getOptions());
-      client.search({});
+      //client.search({});
     }, REFRESH_INTERVAL);
   }
 };

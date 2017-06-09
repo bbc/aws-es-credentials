@@ -1,6 +1,6 @@
 {
   "name": "aws-es-credentials",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "AWS Elasticsearch credentials manager",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -26,11 +26,11 @@
     "request-promise": "^4.2.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-latest": "^6.24.1",
     "babel-register": "^6.24.1",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
     "chai": "^4.0.1",
     "chai-as-promised": "^6.0.0",
     "mocha": "^3.4.2",

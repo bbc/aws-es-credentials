@@ -30,9 +30,9 @@ const hostUrl =
         console.log(res);
       })
       .catch(e => {
-        console.log(e);
+        console.log(e, e.stack);
       });
   } catch (e) {
-    console.log(e.stack);
+    console.log(e, e.stack);
   }
 })();
