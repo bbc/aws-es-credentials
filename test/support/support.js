@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import Bluebird from 'bluebird';
 import sinon from 'sinon';
 import chai, {should, expect} from 'chai';

@@ -11,7 +11,8 @@ let client = null;
 let intervalId = null;
 
 const setOptions = options => {
-  REVALIDATE_OPTIONS = options;
+  /* https://github.com/elasticsearch/elasticsearch-js/issues/33 */
+  REVALIDATE_OPTIONS = JSON.parse(JSON.stringify(options));
 };
 
 const getOptions = () => REVALIDATE_OPTIONS;

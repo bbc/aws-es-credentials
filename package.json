@@ -1,6 +1,6 @@
 {
   "name": "aws-es-credentials",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "AWS Elasticsearch credentials manager",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -37,6 +37,7 @@
     "nock": "^9.0.13",
     "npm-watch": "^0.1.9",
     "prettier": "^1.4.2",
+    "proxyquire": "^1.8.0",
     "sinon": "^1.17.7",
     "sinon-as-promised": "^4.0.3",
     "sinon-chai": "^2.10.0"

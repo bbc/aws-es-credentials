@@ -5,8 +5,7 @@ let baseUrl =
 
 const getCredentials = () => {
   return request({ url: baseUrl }).then(payload => {
-    baseUrl += payload.split("\n")[0];
-    return request({ url: baseUrl }).then(credentialString => {
+    return request({ url: baseUrl + payload.split("\n")[0] }).then(credentialString => {
       return JSON.parse(credentialString);
     });
   });

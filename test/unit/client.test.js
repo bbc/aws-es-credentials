@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import elasticsearch from 'elasticsearch';
 import AWS from 'aws-sdk';
 import * as metadataService from '../../src/getCredentials';
