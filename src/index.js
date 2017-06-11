@@ -4,8 +4,8 @@ import httpAWSES from "http-aws-es";
 import elasticsearch from "elasticsearch";
 import { getCredentials } from "./getCredentials";
 
-const clientProxyFunctions = {};
 const REFRESH_INTERVAL = 3600000;
+let clientProxyFunctions = {};
 let REVALIDATE_OPTIONS = {}; // these options are used when we recreate the client after the credentials expire
 let client = null;
 let intervalId = null;
@@ -76,8 +76,8 @@ const resolveCredentials = async options => {
   );
 };
 
-const clientProxyCaller = (parameters, functionName) => {
-  return client[functionName].apply(client, parameters);
+const clientProxyCaller = (parameters, functionName, newClient) => {
+  return newClient[functionName].apply(newClient, parameters);
 };
 
 /**
@@ -85,10 +85,11 @@ const clientProxyCaller = (parameters, functionName) => {
  * @param {Object} client 
  */
 
-const mapProxy = client => {
-  for (let fn in client) {
+const mapProxy = newClient => {
+  clientProxyFunctions = {};
+  for (let fn in newClient) {
     const partialApplication = (fn => (...parameters) =>
-      clientProxyCaller(parameters, fn))(fn);
+      clientProxyCaller(parameters, fn, newClient))(fn);
     clientProxyFunctions[fn] = partialApplication;
   }
 };
