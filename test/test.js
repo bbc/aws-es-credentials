@@ -1,9 +1,9 @@
 /* integration test script */
 import nock from "nock";
-import awsEsCredentials from "./index";
+import awsEsCredentials from "../src/index";
 
-import profile from "../test/fixture/metadata-response-one.js";
-import credentials from "../test/fixture/metadata-response-two.json";
+import profile from "./fixture/metadata-response-one.js";
+import credentials from "./fixture/metadata-response-two.json";
 
 const scope = nock(
   "http://169.254.169.254/latest/meta-data/iam/security-credentials"
