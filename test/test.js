@@ -6,7 +6,7 @@ import profile from "../test/fixture/metadata-response-one.js";
 import credentials from "../test/fixture/metadata-response-two.json";
 
 const scope = nock(
-  "elasticsearc-endpoint-goes-here"
+  "http://169.254.169.254/latest/meta-data/iam/security-credentials"
 );
 
 scope.get("/").reply(200, profile);
