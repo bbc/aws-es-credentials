@@ -1,3 +1,4 @@
+/* integration test script */
 import nock from "nock";
 import awsEsCredentials from "./index";
 
@@ -13,7 +14,7 @@ scope.get("/").reply(200, profile);
 scope.get(`/${profile}`).reply(200, JSON.stringify(credentials));
 
 const hostUrl =
-  "https://search-stories-test-wkoglssk2kmuyet2vz5se3cyr4.eu-west-1.es.amazonaws.com";
+  "elasticsearc-endpoint-goes-here";
 
 (async () => {
   try {
