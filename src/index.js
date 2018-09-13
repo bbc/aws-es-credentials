@@ -18,16 +18,12 @@ const setOptions = options => {
 const getOptions = () => REVALIDATE_OPTIONS;
 
 const awsEsCredentials = async (options = {}) => {
-  const region = options.region || process.env.AWS_REGION || "eu-west-1";
   const credentials = await resolveCredentials(options);
 
   const defaultOptions = {
     hosts: options.hosts,
     connectionClass: httpAWSES,
-    amazonES: {
-      region: region,
-      credentials: credentials
-    }
+    awsConfig: credentials
   };
 
   const optionsToUse = {
@@ -56,24 +52,27 @@ const awsEsCredentials = async (options = {}) => {
  */
 
 const resolveCredentials = async options => {
+  const region = options.region || process.env.AWS_REGION || 'eu-west-1';
   if (options.useMetadataService !== false) {
     const credentialsJSON = await getCredentials();
-    return new AWS.Credentials(
-      credentialsJSON.AccessKeyId,
-      credentialsJSON.SecretAccessKey,
-      credentialsJSON.Token
-    );
+    return new AWS.Config({
+      accessKeyId: credentialsJSON.AccessKeyId,
+      secretAccessKey: credentialsJSON.SecretAccessKey,
+      sessionToken: credentialsJSON.Token,
+      region
+    });
   }
 
   if (options.credentials) {
     return options.credentials;
   }
 
-  return new AWS.Credentials(
-    process.env.AWS_ACCESS_KEY_ID,
-    process.env.AWS_SECRET_ACCESS_KEY,
-    process.env.AWS_SESSION_TOKEN
-  );
+  return new AWS.Config({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    sessionToken: process.env.AWS_SESSION_TOKEN,
+    region
+  });
 };
 
 const clientProxyCaller = (parameters, functionName, newClient) => {
