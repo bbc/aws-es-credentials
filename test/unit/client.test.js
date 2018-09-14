@@ -14,6 +14,7 @@ describe('awsEsCredentials', () => {
             metadataService.getCredentials.restore();
         });
 
+
         it('queries metadata service is useMetadataService option is true', () => {
             return awsEsCredentials({ useMetadataService: true })         
                 .then(() => {
@@ -51,13 +52,13 @@ describe('awsEsCredentials', () => {
             process.env.AWS_SECRET_ACCESS_KEY = 'world';
             process.env.AWS_SESSION_TOKEN = 'Hi!'
 
-            sinon.stub(AWS, 'Credentials');
+            sinon.stub(AWS, 'Config');
             return awsEsCredentials({ useMetadataService: false })         
                 .then(() => {
-                    expect(AWS.Credentials.calledOnce).to.be.true;
-                    expect(AWS.Credentials.getCall(0).args[0]).to.equal(process.env.AWS_ACCESS_KEY_ID);
-                    expect(AWS.Credentials.getCall(0).args[1]).to.equal(process.env.AWS_SECRET_ACCESS_KEY);
-                    expect(AWS.Credentials.getCall(0).args[2]).to.equal(process.env.AWS_SESSION_TOKEN);
+                    expect(AWS.Config.calledOnce).to.be.true;
+                    expect(AWS.Config.getCall(0).args[0].accessKeyId).to.equal(process.env.AWS_ACCESS_KEY_ID);
+                    expect(AWS.Config.getCall(0).args[0].secretAccessKey).to.equal(process.env.AWS_SECRET_ACCESS_KEY);
+                    expect(AWS.Config.getCall(0).args[0].sessionToken).to.equal(process.env.AWS_SESSION_TOKEN);
                 });
         });
 
