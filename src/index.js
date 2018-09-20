@@ -18,6 +18,8 @@ const setOptions = options => {
 const getOptions = () => REVALIDATE_OPTIONS;
 
 const awsEsCredentials = async (options = {}) => {
+  console.log('awsEsCredentials');
+
   const region = options.region || process.env.AWS_REGION || "eu-west-1";
   const credentials = await resolveCredentials(options);
 
@@ -101,8 +103,10 @@ const mapProxy = newClient => {
  */
 
 const startCredentialRefreshInterval = () => {
+  console.log('startCredentialRefreshInterval');
   if (intervalId === null) {
     intervalId = setInterval(async () => {
+      console.log('interval');
       client = await awsEsCredentials(getOptions());
       //client.search({});
     }, REFRESH_INTERVAL);
