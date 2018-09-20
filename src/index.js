@@ -36,7 +36,7 @@ const awsEsCredentials = async (options = {}) => {
   mapProxy(client);
 
   if (optionsToUse.useMetadataService === true) {
-    startCredentialRefreshInterval(intervalId);
+    startCredentialRefreshInterval();
   }
 
   return clientProxyFunctions;
@@ -99,7 +99,7 @@ const mapProxy = newClient => {
  * @param {Integer} intervalId 
  */
 
-const startCredentialRefreshInterval = intervalId => {
+const startCredentialRefreshInterval = () => {
   if (intervalId === null) {
     intervalId = setInterval(async () => {
       client = await awsEsCredentials(getOptions());
