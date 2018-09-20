@@ -18,12 +18,18 @@ const setOptions = options => {
 const getOptions = () => REVALIDATE_OPTIONS;
 
 const awsEsCredentials = async (options = {}) => {
+  console.log('awsEsCredentials');
+
+  const region = options.region || process.env.AWS_REGION || "eu-west-1";
   const credentials = await resolveCredentials(options);
 
   const defaultOptions = {
     hosts: options.hosts,
     connectionClass: httpAWSES,
-    awsConfig: credentials
+    amazonES: {
+      region: region,
+      credentials: credentials
+    }
   };
 
   const optionsToUse = {
@@ -36,7 +42,7 @@ const awsEsCredentials = async (options = {}) => {
   mapProxy(client);
 
   if (optionsToUse.useMetadataService === true) {
-    startCredentialRefreshInterval(intervalId);
+    startCredentialRefreshInterval();
   }
 
   return clientProxyFunctions;
@@ -52,27 +58,24 @@ const awsEsCredentials = async (options = {}) => {
  */
 
 const resolveCredentials = async options => {
-  const region = options.region || process.env.AWS_REGION || 'eu-west-1';
   if (options.useMetadataService !== false) {
     const credentialsJSON = await getCredentials();
-    return new AWS.Config({
-      accessKeyId: credentialsJSON.AccessKeyId,
-      secretAccessKey: credentialsJSON.SecretAccessKey,
-      sessionToken: credentialsJSON.Token,
-      region
-    });
+    return new AWS.Credentials(
+      credentialsJSON.AccessKeyId,
+      credentialsJSON.SecretAccessKey,
+      credentialsJSON.Token
+    );
   }
 
   if (options.credentials) {
     return options.credentials;
   }
 
-  return new AWS.Config({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    sessionToken: process.env.AWS_SESSION_TOKEN,
-    region
-  });
+  return new AWS.Credentials(
+    process.env.AWS_ACCESS_KEY_ID,
+    process.env.AWS_SECRET_ACCESS_KEY,
+    process.env.AWS_SESSION_TOKEN
+  );
 };
 
 const clientProxyCaller = (parameters, functionName, newClient) => {
@@ -99,9 +102,11 @@ const mapProxy = newClient => {
  * @param {Integer} intervalId 
  */
 
-const startCredentialRefreshInterval = intervalId => {
+const startCredentialRefreshInterval = () => {
+  console.log('startCredentialRefreshInterval');
   if (intervalId === null) {
     intervalId = setInterval(async () => {
+      console.log('interval');
       client = await awsEsCredentials(getOptions());
       //client.search({});
     }, REFRESH_INTERVAL);
